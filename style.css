@@ -1,0 +1,38 @@
+body{
+	margin:0;
+}
+
+#wrapper {
+  height: 100vh;
+  background-color: tomato;
+  overflow-y: hidden;
+}
+
+.landscape {
+  position: auto;
+  height:100vh;
+}
+
+.startbutton{
+	position:fixed;
+}
+
+#playerArea{
+width:40vw;
+height:100vh;
+margin-left:30vw;
+float:left;
+position:fixed;
+background-color: white;
+z-index:+1;
+display: none;
+}
+
+#player{
+	width:100px;
+	height:100px;
+	left:100px;
+	background-color: black;
+	z-index:+2;
+	position: relative;
+}
