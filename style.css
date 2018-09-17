@@ -89,7 +89,7 @@ display:inline-block;
 #player{
 	width:90px;
 	height:100px;
-	background-image: url('character1.png');
+	background-image: url('images/character1.png');
 	background-repeat: no-repeat;
 	z-index:+2;
 	position: fixed;
@@ -103,7 +103,7 @@ display:inline-block;
 	position: relative;
 	width:50px;
 	height:50px;
-	background-image:url('PixelArt_copy.png');
+	background-image:url('images/PixelArt_copy.png');
 	background-repeat: no-repeat;
 	background-size: contain;
 	font-size: 30px;
