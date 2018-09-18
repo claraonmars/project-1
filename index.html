@@ -3,7 +3,8 @@
 
 <head>
     <title></title>
-    <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
+<!--     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+ -->    <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -11,17 +12,20 @@
     <div class="scoreboard"></div>
     <div class="intro">
         <p>Mine for knowledge to save the earth in this dystopian future.</p>
-
     </div>
     <button class="startbutton">Start Game</button>
     <div id="wordholder"></div>
     <div id="wrapper">
         <div id="player"></div>
-        <div class="all">
+        <div class="all" id="first">
             <div class="left"></div>
             <div class="right"></div>
             <div class="landscape" id="last"></div>
         </div>
+    </div>
+    <div class="gameover">
+        <p>You crashed!
+        <br>Game over.</p>
     </div>
     <script type="text/javascript" src="script.js"></script>
 </body>
