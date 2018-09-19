@@ -1,5 +1,5 @@
 window.onload = function() {
-    var scrollDistancePerSecond = 120; // Scroll 50px every second.
+    var scrollDistancePerSecond = 100; // Scroll 50px every second.
     var scrollDistancePerAnimationFrame = Math.ceil(scrollDistancePerSecond / 60); // Animate at 60 fps.
     var wrapper = document.getElementById('wrapper');
     var startButton = document.querySelector('button');
@@ -9,22 +9,32 @@ window.onload = function() {
     var newWord = []
     var wordToCheck
     var request = new XMLHttpRequest();
-    var response
+    var response;
     var count;
     var idCount;
-    var leftWallId
-    var rightWallId
-            var all = document.querySelector('.all');
+    var leftWallId;
+    var rightWallId;
+    var randomBlockId;
+    var all = document.querySelector('.all');
+    var scrollcount;
+    var leftWallCurr;
+    var rightWallCurr;
+    // basline time for the map to shift
+    var baseline = 5;
+    var left;
+    var right;
 
-    var landscape = document.querySelectorAll('.landscape');
+    // var landscape = document.querySelectorAll('.landscape');
 
 
     // initialize game
     var gameStart = function() {
         count = 0;
-        idCount =0;
-        leftWallId=0;
-        rightWallId=0;
+        idCount = 0;
+        leftWallId = 0;
+        rightWallId = 0;
+        randomBlockId = 0;
+        scrollcount = 0;
 
         startButton.style.display = "none"; //hide start button
         document.querySelector('.intro').style.display = "none";
@@ -36,15 +46,20 @@ window.onload = function() {
 
     // game graphics
     var createGraphic = function() {
-        var left = document.createElement('div');
+
+        // variables for the amount of surface blocks to be created depending on left/right space
+        var blockNumLeft = 35;
+        var blockNumRight = 35;
+
+        left = document.createElement('div');
         left.classList.add('left');
-        var right = document.createElement('div');
+        right = document.createElement('div');
         right.classList.add('right');
 
         var continuous = document.createElement('div');
         continuous.classList.add("landscape");
 
-        for (var i = 0; i < 35; i++) {
+        for (var i = 0; i < blockNumLeft; i++) {
             var leftWall = document.createElement('div');
             leftWall.classList.add('leftRandom');
             leftWall.style.left = Math.random() * 10 + 'px';
@@ -55,7 +70,7 @@ window.onload = function() {
 
         }
 
-        for (var i = 0; i < 35; i++) {
+        for (var i = 0; i < blockNumRight; i++) {
             var rightWall = document.createElement('div');
             rightWall.classList.add('rightRandom');
             rightWall.style.left = Math.random() * 10 + 'px';
@@ -63,8 +78,6 @@ window.onload = function() {
             right.appendChild(rightWall);
 
             rightWall.setAttribute('id', rightWallId++);
-
-
         }
 
         all.appendChild(left);
@@ -82,7 +95,7 @@ window.onload = function() {
             var letterBlocks = document.createElement('div');
             letterBlocks.classList.add('letterBlock');
             letterBlocks.textContent = alphabet[randomNumber];
-            letterBlocks.style.top = (120 * Math.random()) + "%";
+            letterBlocks.style.top = (100 * Math.random()) + "%";
             letterBlocks.style.left = (100 * Math.random()) + "%";
             continuous.appendChild(letterBlocks);
 
@@ -90,7 +103,58 @@ window.onload = function() {
             letterBlocks.setAttribute('id', idCount++);
         }
 
+        // every 5 seconds, determine if a random blocker should appear
+        setInterval(function() {
+            var trueFalse = Math.ceil(Math.random() * 2);
+            if (trueFalse === 1) {
+                randomBlock.style.display = "block";
+            }
+        }, 5000);
 
+        for (var i = 0; i < 2; i++) {
+            var randomBlock = document.createElement('div');
+            randomBlock.classList.add('randomBlock');
+            randomBlock.style.top = (100 * Math.random()) + "%";
+            randomBlock.style.left = (100 * Math.random()) + "%";
+            randomBlock.style.display = "none";
+            continuous.appendChild(randomBlock);
+
+            randomBlock.setAttribute('id', randomBlockId++);
+        }
+        // choose to move map left or right
+        if (scrollcount === baseline) {
+        moveMap();
+        }
+
+        // }}, 5000);
+    }
+
+    var moveMap = function(){
+
+            var moveDirection = Math.ceil(Math.random() * 2);
+            if (moveDirection === 1) {                                              // if moveDirection === 1, move right
+
+                // get wall's current position
+                console.log('moving');
+                leftWallCurr = parseInt(left.offsetWidth);
+                rightWallCurr = parseInt(right.offsetWidth);
+
+                // if scrolled to the baseline amount, shift the map * amount
+                left.style.width = leftWallCurr + 200 +'px';
+                right.style.width = leftWallCurr - 200 + 'px';
+                baseline +=7;
+            }
+
+            else {                                                                  // if moveDirection === 2, move left
+                // get wall's current position
+                leftWallCurr = parseInt(left.offsetWidth);
+                rightWallCurr = parseInt(right.offsetWidth);
+
+                // if scrolled to the baseline amount, shift the map * amount
+                left.style.width = leftWallCurr - 200 + 'vw';
+                right.style.width = rightWallCurr + 200 + 'vw';
+                baseline += 5;
+            }
     }
 
     // simulate free falling
@@ -100,19 +164,27 @@ window.onload = function() {
         var scoreboard = document.querySelector('.scoreboard');
         scoreboard.textContent = "SCORE: " + count;
 
-        if (document.querySelector('.gameover').style.display !== "block"){
+        if (document.querySelector('.gameover').style.display !== "block") {
 
-        // if scroll is less than body height, continue to scroll
-        if (element.scrollTop < element.scrollHeight) {
-            window.requestAnimationFrame(autoScroll.bind(null, element));
-            element.scrollTop += scrollDistancePerAnimationFrame;
-        }
+            // if scroll is less than body height, continue to scroll
+            if (element.scrollTop < element.scrollHeight) {
+                window.requestAnimationFrame(autoScroll.bind(null, element));
+                element.scrollTop += scrollDistancePerAnimationFrame;
+            }
 
-        // at the end of prepared body, continuously create gameboard graphic
-        if (element.scrollTop === element.scrollHeight - last.offsetHeight) {
-            createGraphic();
+            // at the end of prepared body, continuously create gameboard graphic
+            if (element.scrollTop === element.scrollHeight - last.offsetHeight) {
+                scrollcount++;
+                console.log(scrollcount);
+                createGraphic();
+                var multiplefive = scrollcount % 5
+                if(multiplefive === 0){
+                scrollDistancePerSecond = scrollDistancePerSecond + 100;
+                }
+
+            }
         }
-    }}
+    }
 
     // allow player to move avatar
     var playerMove = function(event) {
@@ -121,14 +193,18 @@ window.onload = function() {
         var indLetter = document.querySelectorAll('.letterBlock');
         var leftBlocks = document.querySelectorAll('.leftRandom');
         var rightBlocks = document.querySelectorAll('.rightRandom');
+        var randomBlocks = document.querySelectorAll('.randomBlock');
 
         // check for div overlap
+        // get player position
         var rect = player.getBoundingClientRect();
         var playerTop = rect.top;
         var playerBottom = playerTop + 100;
         var playerLeft = rect.left;
         var playerRight = rect.right;
 
+
+        // get leter positions
         for (var i = 0; i < idCount; i++) {
             var letterRect = indLetter[i].getBoundingClientRect();
 
@@ -145,7 +221,6 @@ window.onload = function() {
                 newWord.push(storedLetter); // create array with collected letters
                 storeLetter();
             }
-
         }
 
         // check for left wall collide
@@ -162,12 +237,11 @@ window.onload = function() {
                 document.getElementById("die").play();
 
                 document.querySelector('.gameover').style.display = "block";
-                startButton.style.display="block";
-                startButton.textContent="Replay Game"
+                startButton.style.display = "block";
+                startButton.textContent = "Replay Game"
                 document.getElementById('wordholder').style.display = "none";
                 window.removeEventListener('keydown', playerMove, false);
                 startButton.addEventListener('click', gameReset);
-
             }
 
         }
@@ -187,8 +261,8 @@ window.onload = function() {
                 document.getElementById("die").play();
 
                 document.querySelector('.gameover').style.display = "block";
-                startButton.style.display="block";
-                startButton.textContent="Replay Game"
+                startButton.style.display = "block";
+                startButton.textContent = "Replay Game"
                 document.getElementById('wordholder').style.display = "none";
                 window.removeEventListener('keydown', playerMove, false);
                 startButton.addEventListener('click', gameReset);
@@ -196,16 +270,37 @@ window.onload = function() {
 
         }
 
+        //check for random block collide
+        for (var j = 0; j < randomBlockId; j++) {
 
+            var randomBlockRect = randomBlocks[j].getBoundingClientRect();
+            var randomBlockTop = randomBlockRect.top;
+            var randomBlockBottom = randomBlockTop + 50;
+            var randomBlockLeft = randomBlockRect.left;
+            var randomBlockRight = randomBlockRect.right;
 
+            if (playerBottom >= randomBlockTop && playerTop < randomBlockBottom && playerLeft < randomBlockLeft && playerRight > randomBlockRight) {
+                document.getElementById('player').style.backgroundImage = 'url("images/explode_gif.gif")';
+                document.getElementById("die").play();
+
+                document.querySelector('.gameover').style.display = "block";
+                startButton.style.display = "block";
+                startButton.textContent = "Replay Game";
+                document.getElementById('wordholder').style.display = "none";
+                window.removeEventListener('keydown', playerMove);
+                startButton.addEventListener('click', gameReset);
+
+            }
+
+        }
 
         if (event.keyCode === 37) { // if left arrow is pressed, move left
-            player.style.left = playerCurrentLeft - 10 + 'px';
+            player.style.left = playerCurrentLeft - 20 + 'px';
             player.classList.add('flipImage')
 
         } else if (event.keyCode === 39) { // if right arrow is pressed, move right
-            player.style.left = playerCurrentLeft + 10 + 'px';
-                        player.classList.remove('flipImage')
+            player.style.left = playerCurrentLeft + 20 + 'px';
+            player.classList.remove('flipImage')
 
 
         } else if (event.keyCode === 32) { // if spacebar, store alphabets
@@ -218,7 +313,7 @@ window.onload = function() {
 
     // store letter in word holder before checking
     var storeLetter = function() {
-        if (document.getElementById('wordholder').textContent == ""){
+        if (document.getElementById('wordholder').textContent == "") {
             document.getElementById('wordholder').style.display = "block";
         }
         wordToCheck = newWord.join(''); // string array
@@ -280,28 +375,28 @@ window.onload = function() {
 
     }
 
-    var gameReset = function(){
-                document.getElementById('player').style.backgroundImage = 'url("images/character1.png")';
-                document.querySelector('.gameover').style.display = "none";
-                startButton.style.display="block";
-                startButton.textContent="Start Game";
+    var gameReset = function() {
+        document.getElementById('player').style.backgroundImage = 'url("images/character1.png")';
+        document.querySelector('.gameover').style.display = "none";
+        startButton.style.display = "block";
+        startButton.textContent = "Start Game";
 
-                // clear all divs
-                while (all.childNodes.length > 2) {
-                all.removeChild(all.lastChild);
-                }
+        // clear all divs
+        while (all.childNodes.length > 2) {
+            all.removeChild(all.lastChild);
+        }
 
 
-                // clear previously stored letters
-                clearBox();
+        // clear previously stored letters
+        clearBox();
 
-                document.querySelector('.intro').style.display = "block";
+        document.querySelector('.intro').style.display = "block";
 
-                startButton.addEventListener('click', gameStart);
-                window.addEventListener('keydown', playerMove);
-                player.style.display="none";
-                player.style.top="20vh";
-                player.style.left="45vw";
+        startButton.addEventListener('click', gameStart);
+        window.addEventListener('keydown', playerMove);
+        player.style.display = "none";
+        player.style.top = "20vh";
+        player.style.left = "45vw";
 
 
     }

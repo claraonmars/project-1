@@ -1,9 +1,12 @@
 body{
 	margin:0;
 	color:white;
-font-family: 'VT323', monospace;
+	font-family: 'VT323', monospace;
 	font-size: 20px;
 	background-color: black;
+	overflow-y: hidden;
+  overflow-x: hidden;
+
 }
 
 #wrapper {
@@ -109,18 +112,26 @@ display:inline-block;
 }
 
 .letterBlock{
+background-image:url('images/PixelArt_copy.png');
+}
+
+.randomBlock{
+	background-image:url('images/surface.png');
+}
+
+.letterBlock, .randomBlock{
 	z-index:+9;
-	position: relative;
+	position: absolute;
 	width:50px;
 	height:50px;
-	background-image:url('images/PixelArt_copy.png');
 	background-repeat: no-repeat;
 	background-size: contain;
 	font-size: 30px;
 	text-align: center;
-	display:block;
+	display:inline-block;
 	color:black;
 }
+
 
 #wordholder{
 	height:50px;
