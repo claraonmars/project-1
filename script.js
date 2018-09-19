@@ -14,6 +14,8 @@ window.onload = function() {
     var idCount;
     var leftWallId
     var rightWallId
+            var all = document.querySelector('.all');
+
     var landscape = document.querySelectorAll('.landscape');
 
 
@@ -41,9 +43,6 @@ window.onload = function() {
 
         var continuous = document.createElement('div');
         continuous.classList.add("landscape");
-
-        var all = document.createElement('div');
-        all.classList.add('all');
 
         for (var i = 0; i < 35; i++) {
             var leftWall = document.createElement('div');
@@ -74,14 +73,6 @@ window.onload = function() {
 
         wrapper.appendChild(all);
         document.getElementById('player').style.display = "block";
-
-        while (wrapper.childNodes.length == 3) {
-                wrapper.removeChild(wrapper.lastChild);
-}
-
-        // while (document.querySelectorAll('.all')[1].nextSibling !== null) {
-        //     wrapper.removeChild(document.querySelectorAll('.all')[1].previousSibling)
-        // }
 
         // random letters
         var randomNum = Math.ceil(Math.random() * 12);
@@ -148,6 +139,7 @@ window.onload = function() {
 
             // when divs collide, run storeLetter
             if (playerBottom >= letterTop && playerTop < letterBottom && playerLeft < letterLeft && playerRight > letterRight) {
+                document.getElementById("boop").play();
                 indLetter[i].style.display = "none";
                 var storedLetter = indLetter[i].innerHTML
                 newWord.push(storedLetter); // create array with collected letters
@@ -167,6 +159,8 @@ window.onload = function() {
             // when divs collide, run storeLetter
             if (playerBottom >= leftBlockTop && playerTop < leftBlockBottom && playerLeft < leftBlockLeft && playerRight > leftBlockRight) {
                 document.getElementById('player').style.backgroundImage = 'url("images/explode_gif.gif")';
+                document.getElementById("die").play();
+
                 document.querySelector('.gameover').style.display = "block";
                 startButton.style.display="block";
                 startButton.textContent="Replay Game"
@@ -190,6 +184,8 @@ window.onload = function() {
             // when divs collide, run storeLetter
             if (playerBottom >= rightBlockTop && playerTop < rightBlockBottom && playerLeft < rightBlockLeft && playerRight > rightBlockRight) {
                 document.getElementById('player').style.backgroundImage = 'url("images/explode.png")';
+                document.getElementById("die").play();
+
                 document.querySelector('.gameover').style.display = "block";
                 startButton.style.display="block";
                 startButton.textContent="Replay Game"
@@ -235,20 +231,6 @@ window.onload = function() {
         newWord = [];
         wordToCheck = "";
     }
-
-    // var collectLetters = function(){
-    //     // check which letter is selected and push into newWord Array
-    //         var letters = document.querySelectorAll('.letterBlock')
-    //         for (var i = 0; i < letters.length; i++) {
-    //             letters[i].addEventListener('click', function() {
-    //                 this.style.display = "none"
-    //                 var storedLetter = this.innerHTML
-    //                 newWord.push(storedLetter); // create array with collected letters
-    //                 storeLetter();
-    //             });
-    //         }
-
-    // }
 
     // on spacebar key press, check word with API
     var requestAPI = function(event) {
@@ -305,9 +287,10 @@ window.onload = function() {
                 startButton.textContent="Start Game";
 
                 // clear all divs
-                while (document.getElementById('first').nextSibling) {
-                wrapper.removeChild(document.getElementById('first').nextSibling);
+                while (all.childNodes.length > 2) {
+                all.removeChild(all.lastChild);
                 }
+
 
                 // clear previously stored letters
                 clearBox();
