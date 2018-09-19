@@ -1,5 +1,5 @@
 window.onload = function() {
-    var scrollDistancePerSecond = 100; // Scroll 50px every second.
+    var scrollDistancePerSecond = 150; // Scroll 50px every second.
     var scrollDistancePerAnimationFrame = Math.ceil(scrollDistancePerSecond / 60); // Animate at 60 fps.
     var wrapper = document.getElementById('wrapper');
     var startButton = document.querySelector('button');
@@ -401,11 +401,27 @@ window.onload = function() {
 
     }
 
+     var next = function() {
+                document.querySelector('.intro').addEventListener('click', function(event) {
+                        document.querySelectorAll('p')[0].style = "opacity:1;transition: opacity .25s ease-in-out";
+                        document.querySelectorAll('p')[0].textContent = "Use left and right arrow key to move your character";
+                        document.querySelector('.intro').addEventListener('click', function(event) {
+                            document.querySelectorAll('p')[0].style = "opacity:1;transition: opacity .25s ease-in-out";
+                            document.querySelectorAll('p')[0].textContent = "Form words by collecting alphabets. Use the spacebar to lock them in and gain points.";
+                            document.querySelector('.intro').addEventListener('click', function(event) {
+                                    document.querySelectorAll('p')[0].style = "opacity:1;transition: opacity .25s ease-in-out";
+                                    document.querySelectorAll('p')[0].textContent = "Use X to remove unwanted words. Be careful not to hit into the walls and obstacles!"
+                                })
+                            })
+
+                        });
+                    }
+
     // listen for the request response
     request.addEventListener("load", responseHandler);
     request.addEventListener("error", requestFailed);
 
-
+next();
     startButton.addEventListener('click', gameStart);
     window.addEventListener('keydown', playerMove);
 

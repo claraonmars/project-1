@@ -170,3 +170,21 @@ background-image:url('images/PixelArt_copy.png');
 	top:25vh;
 	text-align: center;
 }
+
+.bounce {
+  position:relative;
+  display: block;
+  -webkit-animation:bounce 1s infinite;
+  -ms-transform:rotate(90deg); /* IE9 */
+    -moz-transform: rotate(90deg);  /* FF3.5/3.6 */
+    -o-transform: rotate(90deg);  /* Opera 10.5 */
+    -webkit-transform: rotate(90deg);  /* Saf3.1+ */
+    transform: rotate(90deg);
+}
+
+@-webkit-keyframes bounce {
+  0%       { bottom:5px; }
+  25%, 75% { bottom:10px; }
+  50%      { bottom:12px; }
+  100%     {bottom:0;}
+}
