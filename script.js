@@ -175,6 +175,8 @@ window.onload = function() {
                 scrollcount++;
                 console.log(scrollcount);
                 createGraphic();
+                console.log(scrollDistancePerSecond);
+
 
                 var multiplefive = scrollcount % 5
                 if (multiplefive === 0) {
