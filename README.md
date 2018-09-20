@@ -18,3 +18,5 @@ Avoid the walls and obstacles.
 -API
 ## Deliverables
 Working game is hosted at https://claraonmars.github.io/project-1/
+## Unresolved issues
+Clearing out the multiple divs appended for random wall generation.
