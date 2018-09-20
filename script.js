@@ -123,38 +123,36 @@ window.onload = function() {
         }
         // choose to move map left or right
         if (scrollcount === baseline) {
-        moveMap();
+            moveMap();
         }
 
         // }}, 5000);
     }
 
-    var moveMap = function(){
+    var moveMap = function() {
 
-            var moveDirection = Math.ceil(Math.random() * 2);
-            if (moveDirection === 1) {                                              // if moveDirection === 1, move right
+        var moveDirection = Math.ceil(Math.random() * 2);
+        if (moveDirection === 1) { // if moveDirection === 1, move right
 
-                // get wall's current position
-                console.log('moving');
-                leftWallCurr = parseInt(left.offsetWidth);
-                rightWallCurr = parseInt(right.offsetWidth);
+            // get wall's current position
+            console.log('moving');
+            leftWallCurr = parseInt(left.offsetWidth);
+            rightWallCurr = parseInt(right.offsetWidth);
 
-                // if scrolled to the baseline amount, shift the map * amount
-                left.style.width = leftWallCurr + 200 +'px';
-                right.style.width = leftWallCurr - 200 + 'px';
-                baseline +=7;
-            }
+            // if scrolled to the baseline amount, shift the map * amount
+            left.style.width = leftWallCurr + 200 + 'px';
+            right.style.width = leftWallCurr - 200 + 'px';
+            baseline += 7;
+        } else { // if moveDirection === 2, move left
+            // get wall's current position
+            leftWallCurr = parseInt(left.offsetWidth);
+            rightWallCurr = parseInt(right.offsetWidth);
 
-            else {                                                                  // if moveDirection === 2, move left
-                // get wall's current position
-                leftWallCurr = parseInt(left.offsetWidth);
-                rightWallCurr = parseInt(right.offsetWidth);
-
-                // if scrolled to the baseline amount, shift the map * amount
-                left.style.width = leftWallCurr - 200 + 'vw';
-                right.style.width = rightWallCurr + 200 + 'vw';
-                baseline += 5;
-            }
+            // if scrolled to the baseline amount, shift the map * amount
+            left.style.width = leftWallCurr - 200 + 'vw';
+            right.style.width = rightWallCurr + 200 + 'vw';
+            baseline += 5;
+        }
     }
 
     // simulate free falling
@@ -177,9 +175,10 @@ window.onload = function() {
                 scrollcount++;
                 console.log(scrollcount);
                 createGraphic();
+
                 var multiplefive = scrollcount % 5
-                if(multiplefive === 0){
-                scrollDistancePerSecond = scrollDistancePerSecond + 100;
+                if (multiplefive === 0) {
+                    scrollDistancePerSecond = scrollDistancePerSecond + 100;
                 }
 
             }
@@ -401,27 +400,28 @@ window.onload = function() {
 
     }
 
-     var next = function() {
+    var next = function() {
+        document.querySelector('.intro').addEventListener('click', function(event) {
+            document.querySelectorAll('p')[0].style = "opacity:1;transition: opacity .25s ease-in-out";
+            document.querySelectorAll('p')[0].textContent = "Use left and right arrow key to move your character";
+            document.querySelector('.intro').addEventListener('click', function(event) {
+                document.querySelectorAll('p')[0].style = "opacity:1;transition: opacity .25s ease-in-out";
+                document.querySelectorAll('p')[0].textContent = "Form words by collecting alphabets. Use the spacebar to lock them in and gain points.";
                 document.querySelector('.intro').addEventListener('click', function(event) {
-                        document.querySelectorAll('p')[0].style = "opacity:1;transition: opacity .25s ease-in-out";
-                        document.querySelectorAll('p')[0].textContent = "Use left and right arrow key to move your character";
-                        document.querySelector('.intro').addEventListener('click', function(event) {
-                            document.querySelectorAll('p')[0].style = "opacity:1;transition: opacity .25s ease-in-out";
-                            document.querySelectorAll('p')[0].textContent = "Form words by collecting alphabets. Use the spacebar to lock them in and gain points.";
-                            document.querySelector('.intro').addEventListener('click', function(event) {
-                                    document.querySelectorAll('p')[0].style = "opacity:1;transition: opacity .25s ease-in-out";
-                                    document.querySelectorAll('p')[0].textContent = "Use X to remove unwanted words. Be careful not to hit into the walls and obstacles!"
-                                })
-                            })
+                    document.querySelectorAll('p')[0].style = "opacity:1;transition: opacity .25s ease-in-out";
+                    document.querySelectorAll('p')[0].textContent = "Use X to remove unwanted words. Be careful not to hit into the walls and obstacles!"
+                    document.querySelector('.bounce').style.display = "none";
+                })
+            })
 
-                        });
-                    }
+        });
+    }
 
     // listen for the request response
     request.addEventListener("load", responseHandler);
     request.addEventListener("error", requestFailed);
 
-next();
+    next();
     startButton.addEventListener('click', gameStart);
     window.addEventListener('keydown', playerMove);
 

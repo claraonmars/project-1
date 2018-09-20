@@ -2,7 +2,7 @@ body{
 	margin:0;
 	color:white;
 	font-family: 'VT323', monospace;
-	font-size: 20px;
+	font-size: 22px;
 	background-color: black;
 	overflow-y: hidden;
   overflow-x: hidden;
@@ -66,6 +66,7 @@ float:left;
 	width:35vw;
 float:right;
 display:inline-block;
+
 }
 
 .startbutton{
@@ -79,7 +80,7 @@ display:inline-block;
 	height:50px;
 	color: white;
 	font-family: 'VT323', monospace;
-	font-size: 20px;
+	font-size: 25px;
 	margin: 0 auto;
 }
 
@@ -145,6 +146,7 @@ background-image:url('images/PixelArt_copy.png');
 	color:white;
 	z-index: +10;
 	display:none;
+	font-size: 35px;
 }
 
 .scoreboard{
